@@ -97,6 +97,17 @@ with(data_bymin,plot(interval,AveStep,type="l",xlab="Interval",ylab="Number of S
 
 ![plot of chunk Daily Steps Pattern](figure/Daily Steps Pattern.png) 
 
+We can also find the intervel with maximun daily steps using the following code.
+
+```r
+subset(data_bymin,AveStep==max(AveStep))
+```
+
+```
+##     interval AveStep
+## 104      835   206.2
+```
+
 ## Imputing missing values
 ### Basic charastic of missing values
 It is clear that the data have some missing value. Before we fill in the missing value, it is important to take a look at the structure of the missing value. In particular, I am interested in whether the missing value appears randomly or appear only on specific dates. To accomplish this, I summaries the data by counting number of NA as well as total number of interval for each date. In the following code, ```NACount``` is the number of interval that is NA for each date. ```TotalCount``` is the total number of interval for each date.
@@ -127,6 +138,17 @@ newdata1 <- data
 newdata1$steps <- ifelse(is.na(newdata1$steps),0,newdata1$steps)
 newdata1_byday <- ddply(newdata1,.(date),summarize,TotalSteps=sum(steps))  ## summarize by day
 ```
+Now we can show a histrogram of the daily steps __after__ the missing value is replaced.
+
+```r
+hist(newdata1_byday$TotalSteps,xlab="Daily Steps",main="Histogram of Daily Steps")
+```
+
+![plot of chunk Histrogram New Data 1](figure/Histrogram New Data 1.png) 
+
+Compared to the original histrogram, the frequency is higher when daily steps is low. The reason is that we replace those days with 0.
+
+
 Now we can calculate the difference in mean and median after we replace NA with 0.
 
 ```r
@@ -154,6 +176,15 @@ newdata2 <- merge(data,data_bymin,by.x="interval",by.y="interval")
 newdata2$steps <- ifelse(is.na(newdata2$steps),newdata2$AveStep,newdata2$steps)  ## Replace missing data with average
 newdata2_byday <- ddply(newdata2,.(date),summarize,TotalSteps=sum(steps))  ## summarize by day
 ```
+Now we can show a histrogram of the daily steps __after__ the missing value is replaced.
+
+```r
+hist(newdata2_byday$TotalSteps,xlab="Daily Steps",main="Histogram of Daily Steps")
+```
+
+![plot of chunk Histrogram New Data 2](figure/Histrogram New Data 2.png) 
+
+Compared to the original histrogram, the frequency is higher in the middle.
 Now we can calculate the difference in mean and median after we replace NA with 0.
 
 ```r
