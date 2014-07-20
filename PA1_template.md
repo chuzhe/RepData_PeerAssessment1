@@ -31,13 +31,6 @@ Since every row of the data is a 5 minutes interval. We need to summarize the da
 
 ```r
 require(plyr)
-```
-
-```
-## Loading required package: plyr
-```
-
-```r
 data_byday <- ddply(data,.(date),summarize,TotalSteps=sum(steps))
 head(data_byday)
 ```
@@ -57,7 +50,7 @@ We can now make a histogram of the daily steps each day.
 hist(data_byday$TotalSteps,xlab="Daily Steps",main="Histogram of Daily Steps")
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+![plot of chunk Histrogram Daily Steps](figure/Histrogram Daily Steps.png) 
 
 We can also calculate the mean of daily step.
 
@@ -102,7 +95,7 @@ We can now plot the daily pattern.
 with(data_bymin,plot(interval,AveStep,type="l",xlab="Interval",ylab="Number of Steps",main="Daily Steps Pattern"))
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+![plot of chunk Daily Steps Pattern](figure/Daily Steps Pattern.png) 
 
 ## Imputing missing values
 ### Basic charastic of missing values
@@ -187,16 +180,9 @@ We first add a column in ```data``` to indicate whether the date is a weekday or
 data$weekend <- ifelse(weekdays(as.Date(data$date))=="Saturday"|weekdays(as.Date(data$date))=="Sunday","Weekend","Weekday")
 data_byweekday <- ddply(data,.(interval,weekend),summarize,AveStep=mean(steps,na.rm=TRUE))  ## summarize by interval and weekend
 require(lattice)
-```
-
-```
-## Loading required package: lattice
-```
-
-```r
 xyplot(AveStep ~ interval | weekend, data=data_byweekday,layout=c(1,2),type="l",xlab="Interval",ylab="Number of Steps")
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+![plot of chunk Weenend Steps Patttern](figure/Weenend Steps Patttern.png) 
 
 Note that all NA is ignored. Judging from the plot, steps number seems to exhibit different pattern during weekend compared to during weekday.

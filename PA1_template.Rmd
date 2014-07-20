@@ -22,7 +22,7 @@ data_byday <- ddply(data,.(date),summarize,TotalSteps=sum(steps))
 head(data_byday)
 ```
 We can now make a histogram of the daily steps each day.
-```{r}
+```{r Histrogram Daily Steps}
 hist(data_byday$TotalSteps,xlab="Daily Steps",main="Histogram of Daily Steps")
 ```
 
@@ -43,7 +43,7 @@ data_bymin <- ddply(data,.(interval),summarize,AveStep=mean(steps,na.rm=TRUE)) #
 head(data_bymin)
 ```
 We can now plot the daily pattern.
-```{r}
+```{r Daily Steps Pattern}
 with(data_bymin,plot(interval,AveStep,type="l",xlab="Interval",ylab="Number of Steps",main="Daily Steps Pattern"))
 ```
 
@@ -86,7 +86,7 @@ The difference in mean in 0 since we replace NA with mean in the interval.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 We first add a column in ```data``` to indicate whether the date is a weekday or weekend. Then we use can summarize the data by both interval and weekend of not.
-```{r}
+```{r Weenend Steps Patttern}
 data$weekend <- ifelse(weekdays(as.Date(data$date))=="Saturday"|weekdays(as.Date(data$date))=="Sunday","Weekend","Weekday")
 data_byweekday <- ddply(data,.(interval,weekend),summarize,AveStep=mean(steps,na.rm=TRUE))  ## summarize by interval and weekend
 require(lattice)
